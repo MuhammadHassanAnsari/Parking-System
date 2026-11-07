@@ -12,7 +12,7 @@ let parkingLocation = [
         name: "City Parking",
         location: "Johar",
         distance: "500m",
-        price: "200Pkr",
+        price: "600Pkr",
         available: "yes",
         details: "View details"
 
@@ -36,6 +36,8 @@ let parkingList = document.querySelector(".parking-cards");
 let searchBtn = document.querySelector(".searchbtn");
 let inputValue = document.querySelector(".input");
 let showParking = document.querySelector(".show-availablecar");
+let sorting = document.querySelector("#sorting-option");
+
 
 let gen = parkingLocation.map((car) => {
     return `
@@ -127,10 +129,45 @@ showParking.addEventListener("click", () => {
     console.log(final);
 })
 
+sorting.addEventListener("change", () => {
+    let copyArray = [...parkingLocation];
+
+    let copyArray1 = [...parkingLocation];
+
+    let result1 = copyArray.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+    let result2 = copyArray1.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+
+    let selectedparking;
+
+    if (sorting.value === "low") {
+        selectedparking = (result1);
+
+    }
 
 
 
+    if (sorting.value === "high") {
+        selectedparking = (result2);
+
+    }
+    let parkingCar = selectedparking.map((parkcar) => {
+        return `
+             <div class= "parking-card">  
+                <h2>${parkcar.name}</h2>
+                <p>${parkcar.location}</p>
+                    <p>${parkcar.distance}</p>
+                    <p>${parkcar.price}</p>
+                    <p>${parkcar.available}</p>
+                    <p>${parkcar.details}</p>
+                </div>
+        `
+    })
 
 
+    let joinresult = parkingCar.join("");
+    let final = parkingList.innerHTML = joinresult;
+    console.log(final);
+
+})
 
 
