@@ -37,20 +37,24 @@ let searchBtn = document.querySelector(".searchbtn");
 let inputValue = document.querySelector(".input");
 let showParking = document.querySelector(".show-availablecar");
 let sorting = document.querySelector("#sorting-option");
+let viewBtn = document.querySelectorAll(".viewbtn");
+let parkingPopup = document.querySelector(".popup-card");
 
-
-let gen = parkingLocation.map((car) => {
+let gen = parkingLocation.map((car, index) => {
+    // console.log(car.name);
+    // console.log(index)
     return `
             <div class= "parking-card">  
                 <h2>${car.name}</h2>
                 <p>${car.location}</p>
-                    <p>${car.distance}</p>
-                    <p>${car.price}</p>
                     <p>${car.available}</p>
-                    <p>${car.details}</p>
+                    <button data-index = ${index} class="viewbtn">${car.details}</button>
                 </div>
         `;
+
+
 })
+
 
 parkingList.innerHTML = gen;
 
@@ -116,10 +120,8 @@ showParking.addEventListener("click", () => {
              <div class= "parking-card">  
                 <h2>${parkcar.name}</h2>
                 <p>${parkcar.location}</p>
-                    <p>${parkcar.distance}</p>
-                    <p>${parkcar.price}</p>
                     <p>${parkcar.available}</p>
-                    <p>${parkcar.details}</p>
+                    <button class="viewbtn">${parkcar.details}</button>
                 </div>
         `
     })
@@ -155,10 +157,9 @@ sorting.addEventListener("change", () => {
              <div class= "parking-card">  
                 <h2>${parkcar.name}</h2>
                 <p>${parkcar.location}</p>
-                    <p>${parkcar.distance}</p>
-                    <p>${parkcar.price}</p>
+            
                     <p>${parkcar.available}</p>
-                    <p>${parkcar.details}</p>
+                    <button class="viewbtn">${parkcar.details}</button>
                 </div>
         `
     })
@@ -171,3 +172,41 @@ sorting.addEventListener("change", () => {
 })
 
 
+parkingList.addEventListener("click", (e) => {
+    let target = e.target.classList.contains("viewbtn");
+    if (target === true) {
+        let parkingindex = e.target.dataset.index;
+        let parkingobj = parkingLocation[parkingindex]
+        // console.log(parkingobj);
+
+        parkingPopup.style.display = "block";
+
+        let name = document.createElement("h3");
+        name.innerHTML = `${parkingobj.name}`;
+
+        let locat = document.createElement("p");
+        locat.innerHTML = `${parkingobj.location}`;
+
+        let dis = document.createElement("p");
+        dis.innerHTML = `${parkingobj.distance}`;
+
+        let pri = document.createElement("p");
+        pri.innerHTML = `${parkingobj.price}`;
+
+        let avail = document.createElement("p");
+        avail.innerHTML = `${parkingobj.available}`;
+
+        let closBtn = document.createElement("button");
+        closBtn.textContent = "Close";
+
+
+
+        parkingPopup.append(name, locat, dis, pri, avail, closBtn);
+
+        closBtn.addEventListener("click", ()=>{
+            parkingPopup.style.display = "none";
+        })
+
+    }
+    // console.log(target)
+})

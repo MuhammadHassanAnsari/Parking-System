@@ -8,3 +8,7 @@ body{
     height: auto;
     width: fit-content;
 }
+
+.popup-card{
+    display: none;
+}
