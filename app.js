@@ -1,5 +1,6 @@
 let parkingLocation = [
     {
+        id: 1,
         name: "ABC Parking",
         location: "Gulshan",
         distance: "300m",
@@ -9,6 +10,7 @@ let parkingLocation = [
     },
 
     {
+        id: 2,
         name: "City Parking",
         location: "Johar",
         distance: "500m",
@@ -19,6 +21,7 @@ let parkingLocation = [
     },
 
     {
+        id: 3,
         name: "Safe Parking",
         location: "DHA",
         distance: "1.2km",
@@ -39,7 +42,8 @@ let showParking = document.querySelector(".show-availablecar");
 let sorting = document.querySelector("#sorting-option");
 let viewBtn = document.querySelectorAll(".viewbtn");
 let parkingPopup = document.querySelector(".popup-card");
-
+let allresrvationbtn = document.querySelector(".allreservationbtn");
+let cancelBtn = document.querySelector(".cancelbtn");git
 let gen = parkingLocation.map((car, index) => {
     // console.log(car.name);
     // console.log(index)
@@ -122,7 +126,8 @@ showParking.addEventListener("click", () => {
                 <p>${parkcar.location}</p>
                     <p>${parkcar.available}</p>
                     <button class="viewbtn">${parkcar.details}</button>
-                </div>
+                    
+                </div>  
         `
     })
 
@@ -157,6 +162,8 @@ sorting.addEventListener("change", () => {
              <div class= "parking-card">  
                 <h2>${parkcar.name}</h2>
                 <p>${parkcar.location}</p>
+                <p>${parkcar.price}</p>
+
             
                     <p>${parkcar.available}</p>
                     <button class="viewbtn">${parkcar.details}</button>
@@ -199,14 +206,78 @@ parkingList.addEventListener("click", (e) => {
         let closBtn = document.createElement("button");
         closBtn.textContent = "Close";
 
+        let reservationBtn = document.createElement("button");
+        reservationBtn.classList.add("reserve");
+        reservationBtn.textContent = "Reserve Parking";
 
 
-        parkingPopup.append(name, locat, dis, pri, avail, closBtn);
 
-        closBtn.addEventListener("click", ()=>{
+        parkingPopup.append(name, locat, dis, pri, avail, closBtn, reservationBtn);
+
+        closBtn.addEventListener("click", () => {
             parkingPopup.style.display = "none";
+        })
+
+
+        reservationBtn.addEventListener("click", () => {
+            // console.log("clicked reserve parking ")
+            let datareead = JSON.parse((localStorage.getItem("reservation")));
+            // console.log(datareead);
+            //  let f = Array.isArray(datareead)
+            //  console.log(f);
+
+
+            // console.log(reservationparking);
+
+            // reservationparking.push(datareead);
+
+            // let result3 = datareead || [];
+            let result3 = [];
+            // result3.push(parkingobj);
+            // localStorage.setItem("reservation", JSON.stringify((result3)));
+            // console.log(result3);
+
+
+            if (Array.isArray(datareead)) {
+                result3 = datareead;
+            }
+
+            result3.push(parkingobj);
+            localStorage.setItem("reservation", JSON.stringify(result3));
+            console.log(result3);
+
+
+
         })
 
     }
     // console.log(target)
+})
+
+
+allresrvationbtn.addEventListener("click", () => {
+    let reusedata = JSON.parse(localStorage.getItem("reservation"));
+    console.log(reusedata);
+    let parkingCar1 = reusedata.map((parkingcards) => {
+        return `
+        <div class= "parking-card">  
+                    <h2>${parkingcards.name}</h2>
+                    <p>${parkingcards.location}</p>
+                        <p>${parkingcards.available}</p>
+                        <p>${parkingcards.price}</p>
+                        <p>${parkingcards.distance}</p>
+                        
+                        
+                        
+
+                    </div> `
+    })
+
+    let convertjoin = parkingCar1.join("");
+    let finaljoin = parkingList.innerHTML = convertjoin;
+    console.log(finaljoin);
+
+
+    
+
 })

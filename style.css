@@ -12,3 +12,11 @@ body{
 .popup-card{
     display: none;
 }
+
+
+.allreservation{
+    border: 2px solid red;
+    height: 300px;
+    width: 300px;
+    display: none;
+}
