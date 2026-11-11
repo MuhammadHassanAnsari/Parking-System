@@ -43,7 +43,11 @@ let sorting = document.querySelector("#sorting-option");
 let viewBtn = document.querySelectorAll(".viewbtn");
 let parkingPopup = document.querySelector(".popup-card");
 let allresrvationbtn = document.querySelector(".allreservationbtn");
-let cancelBtn = document.querySelector(".cancelbtn");git
+let cancelBtn = document.querySelector(".cancelbtn");
+let reservationparkingdata = document.querySelector(".allreservation");
+
+
+
 let gen = parkingLocation.map((car, index) => {
     // console.log(car.name);
     // console.log(index)
@@ -87,6 +91,9 @@ searchBtn.addEventListener("click", () => {
 
     if (filterResult.length > 0) {
         let cardresultgen = filterResult.map((filtercard) => {
+            let originalIndex = parkingLocation.findIndex((car) => {
+                return car.id === filtercard.id;
+            });
             return `
             <div class= "parking-card">  
                 <h2>${filtercard.name}</h2>
@@ -94,8 +101,8 @@ searchBtn.addEventListener("click", () => {
                     <p>${filtercard.distance}</p>
                     <p>${filtercard.price}</p>
                     <p>${filtercard.available}</p>
-                    <p>${filtercard.details}</p>
-                </div>
+                    <button data-index="${originalIndex}">${filtercard.details}</button>
+                    </div>
                 `;
 
 
@@ -158,6 +165,10 @@ sorting.addEventListener("change", () => {
 
     }
     let parkingCar = selectedparking.map((parkcar) => {
+        let originalIndex = parkingLocation.findIndex((car) => {
+            return car.id === parkcar.id;
+        });
+
         return `
              <div class= "parking-card">  
                 <h2>${parkcar.name}</h2>
@@ -166,7 +177,7 @@ sorting.addEventListener("change", () => {
 
             
                     <p>${parkcar.available}</p>
-                    <button class="viewbtn">${parkcar.details}</button>
+                    <button class="viewbtn" data-index ="${originalIndex}">${parkcar.details}</button>
                 </div>
         `
     })
@@ -211,7 +222,7 @@ parkingList.addEventListener("click", (e) => {
         reservationBtn.textContent = "Reserve Parking";
 
 
-
+        parkingPopup.innerHTML = "";
         parkingPopup.append(name, locat, dis, pri, avail, closBtn, reservationBtn);
 
         closBtn.addEventListener("click", () => {
@@ -266,10 +277,7 @@ allresrvationbtn.addEventListener("click", () => {
                         <p>${parkingcards.available}</p>
                         <p>${parkingcards.price}</p>
                         <p>${parkingcards.distance}</p>
-                        
-                        
-                        
-
+                        <button class="cancelbtn" data-id = ${parkingcards.id}>Cancel Reservation</button>     
                     </div> `
     })
 
@@ -278,6 +286,60 @@ allresrvationbtn.addEventListener("click", () => {
     console.log(finaljoin);
 
 
-    
+})
+
+parkingList.addEventListener("click", (e) => {
+
+    let target = e.target.classList.contains("cancelbtn");
+    if (target === true) {
+        let parkingIndex = e.target.dataset.id;
+        // console.log(parkingIndex)
+
+        let dataread = JSON.parse(localStorage.getItem("reservation"));
+        let removeparkingmain = dataread.filter((removeparking) => {
+            return removeparking.id !== Number(parkingIndex);
+        })
+        parkingList.innerHTML = "";
+        localStorage.setItem("reservation", JSON.stringify(removeparkingmain));
+        // console.log(updatedata) 
+
+        let updatedparkinglist = removeparkingmain.forEach((parkingobj) => {
+
+            let createDiv = document.createElement("div");
+            createDiv.classList.add("res-div");
+
+            let name = document.createElement("h3");
+            name.innerHTML = `${parkingobj.name}`;
+
+            let locat = document.createElement("p");
+            locat.innerHTML = `${parkingobj.location}`;
+
+            let dis = document.createElement("p");
+            dis.innerHTML = `${parkingobj.distance}`;
+
+            let pri = document.createElement("p");
+            pri.innerHTML = `${parkingobj.price}`;
+
+            let avail = document.createElement("p");
+            avail.innerHTML = `${parkingobj.available}`;
+
+            let reservationBtn = document.createElement("button");
+            reservationBtn.classList.add("cancelbtn");
+            reservationBtn.textContent = "Cancel Parking";
+
+            reservationBtn.dataset.id = parkingobj.id;
+
+            createDiv.append(name, locat, dis, avail, pri, reservationBtn);
+            parkingList.appendChild(createDiv);
+
+        })
+
+        console.log(updatedparkinglist)
+
+
+
+    }
+
+
 
 })
