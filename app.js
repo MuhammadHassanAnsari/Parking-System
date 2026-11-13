@@ -263,9 +263,13 @@ parkingList.addEventListener("click", (e) => {
                 alert("Already Reserve");
                 return;
             } else {
+                if (parkingobj.available === "yes") {
+                    parkingobj.available = "no";
+                }
                 result3.push(parkingobj);
                 localStorage.setItem("reservation", JSON.stringify(result3));
                 alert("Parking Reserved Successfully!");
+                localStorage.setItem("parkingData", JSON.stringify(parkingLocation));
                 console.log(result3);
             }
 
