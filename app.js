@@ -235,7 +235,7 @@ parkingList.addEventListener("click", (e) => {
             let datareead = JSON.parse((localStorage.getItem("reservation")));
             // console.log(datareead);
             //  let f = Array.isArray(datareead)
-            //  console.log(f);
+            //  console.log(f); 
 
 
             // console.log(reservationparking);
@@ -253,9 +253,26 @@ parkingList.addEventListener("click", (e) => {
                 result3 = datareead;
             }
 
-            result3.push(parkingobj);
-            localStorage.setItem("reservation", JSON.stringify(result3));
-            console.log(result3);
+
+            let duplicateReservation = result3.some((reservation) => {
+                return reservation.id === parkingobj.id;
+
+            });
+            // console.log(duplicateReservation);
+            if (duplicateReservation === true) {
+                alert("Already Reserve");
+                return;
+            } else {
+                result3.push(parkingobj);
+                localStorage.setItem("reservation", JSON.stringify(result3));
+                alert("Parking Reserved Successfully!");
+                console.log(result3);
+            }
+
+            // result3.push(parkingobj);
+            // localStorage.setItem("reservation", JSON.stringify(result3));
+            // console.log(result3);
+
 
 
 
