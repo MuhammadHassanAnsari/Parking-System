@@ -1,35 +1,103 @@
 let parkingLocation = [
     {
-        id: 1,
-        name: "ABC Parking",
-        location: "Gulshan",
-        distance: "300m",
-        price: "200Pkr",
+        id: 4,
+        name: "Green Valley Parking",
+        location: "North Nazimabad",
+        distance: "700m",
+        price: "150Pkr",
         available: "yes",
         details: "View details"
     },
 
     {
-        id: 2,
-        name: "City Parking",
-        location: "Johar",
-        distance: "500m",
-        price: "600Pkr",
+        id: 5,
+        name: "Metro Parking",
+        location: "Gulistan-e-Johar",
+        distance: "900m",
+        price: "250Pkr",
         available: "yes",
         details: "View details"
-
     },
 
     {
-        id: 3,
-        name: "Safe Parking",
-        location: "DHA",
-        distance: "1.2km",
-        price: "100Pkr",
+        id: 6,
+        name: "Secure Parking",
+        location: "Clifton",
+        distance: "1.5km",
+        price: "400Pkr",
         available: "full",
         details: "View details"
-
     },
+
+    {
+        id: 7,
+        name: "City Center Parking",
+        location: "Saddar",
+        distance: "600m",
+        price: "300Pkr",
+        available: "yes",
+        details: "View details"
+    },
+
+    {
+        id: 8,
+        name: "Royal Parking",
+        location: "PECHS",
+        distance: "800m",
+        price: "350Pkr",
+        available: "yes",
+        details: "View details"
+    },
+
+    {
+        id: 9,
+        name: "Fast Park",
+        location: "Malir",
+        distance: "2km",
+        price: "120Pkr",
+        available: "full",
+        details: "View details"
+    },
+
+    {
+        id: 10,
+        name: "Smart Parking",
+        location: "Bahadurabad",
+        distance: "400m",
+        price: "180Pkr",
+        available: "yes",
+        details: "View details"
+    },
+
+    {
+        id: 11,
+        name: "Prime Parking",
+        location: "DHA Phase 6",
+        distance: "1km",
+        price: "500Pkr",
+        available: "yes",
+        details: "View details"
+    },
+
+    {
+        id: 12,
+        name: "Easy Park",
+        location: "Federal B Area",
+        distance: "1.3km",
+        price: "220Pkr",
+        available: "full",
+        details: "View details"
+    },
+
+    {
+        id: 13,
+        name: "Central Parking",
+        location: "Tariq Road",
+        distance: "550m",
+        price: "280Pkr",
+        available: "yes",
+        details: "View details"
+    }
 
 
 
@@ -47,15 +115,16 @@ let cancelBtn = document.querySelector(".cancelbtn");
 let reservationparkingdata = document.querySelector(".allreservation");
 
 
+parkingLocation = JSON.parse(localStorage.getItem("parkingData")) || parkingLocation;
 
 let gen = parkingLocation.map((car, index) => {
     // console.log(car.name);
     // console.log(index)
     return `
             <div class= "parking-card">  
-                <h2>${car.name}</h2>
-                <p>${car.location}</p>
-                    <p>${car.available}</p>
+                <h2>Parking Name: ${car.name}</h2>
+                <p>Location: ${car.location}</p>
+                    <p>Avaliblity:${car.available}</p>
                     <button data-index = ${index} class="viewbtn">${car.details}</button>
                 </div>
         `;
@@ -64,8 +133,7 @@ let gen = parkingLocation.map((car, index) => {
 })
 
 
-parkingList.innerHTML = gen;
-
+parkingList.innerHTML = gen.join("");
 
 let availablecar = parkingLocation.filter((availableparking) => {
     return availableparking.available === "yes";
@@ -96,12 +164,12 @@ searchBtn.addEventListener("click", () => {
             });
             return `
             <div class= "parking-card">  
-                <h2>${filtercard.name}</h2>
-                <p>${filtercard.location}</p>
-                    <p>${filtercard.distance}</p>
-                    <p>${filtercard.price}</p>
-                    <p>${filtercard.available}</p>
-                    <button data-index="${originalIndex}">${filtercard.details}</button>
+                <h2>Parking Name: ${filtercard.name}</h2>
+                <p>Location: ${filtercard.location}</p>
+                    <p>Distance: ${filtercard.distance}</p>
+                    <p>Price: ${filtercard.price}</p>
+                    <p>Avaliblity: ${filtercard.available}</p>
+                    <button data-index="${originalIndex}" class="viewbtn">${filtercard.details}</button>
                     </div>
                 `;
 
@@ -110,7 +178,7 @@ searchBtn.addEventListener("click", () => {
 
 
 
-        let joinresult = cardresultgen.join();
+        let joinresult = cardresultgen.join("");
         parkingList.innerHTML = joinresult;
     } else {
         parkingList.innerHTML = "No Parking Found";
@@ -126,13 +194,17 @@ searchBtn.addEventListener("click", () => {
 // console.log(gen);
 
 showParking.addEventListener("click", () => {
+
     let parkingCar = availablecar.map((parkcar) => {
+        let originalIndex = parkingLocation.findIndex((car) => {
+            return car.id === parkcar.id;
+        });
         return `
              <div class= "parking-card">  
-                <h2>${parkcar.name}</h2>
-                <p>${parkcar.location}</p>
-                    <p>${parkcar.available}</p>
-                    <button class="viewbtn">${parkcar.details}</button>
+                <h2>Parking Name: ${parkcar.name}</h2>
+                <p>Location: ${parkcar.location}</p>
+                    <p>Avalibilty: ${parkcar.available}</p>
+                    <button class="viewbtn" data-index="${originalIndex}">${parkcar.details}</button>
                     
                 </div>  
         `
@@ -171,12 +243,12 @@ sorting.addEventListener("change", () => {
 
         return `
              <div class= "parking-card">  
-                <h2>${parkcar.name}</h2>
-                <p>${parkcar.location}</p>
-                <p>${parkcar.price}</p>
+                <h2>Parking Name: ${parkcar.name}</h2>
+                <p>Location: ${parkcar.location}</p>
+                <p>Price: ${parkcar.price}</p>
 
             
-                    <p>${parkcar.available}</p>
+                    <p>Avaliblity: ${parkcar.available}</p>
                     <button class="viewbtn" data-index ="${originalIndex}">${parkcar.details}</button>
                 </div>
         `
@@ -200,19 +272,19 @@ parkingList.addEventListener("click", (e) => {
         parkingPopup.style.display = "block";
 
         let name = document.createElement("h3");
-        name.innerHTML = `${parkingobj.name}`;
+        name.textContent = `Parking Name: ${parkingobj.name}`;
 
         let locat = document.createElement("p");
-        locat.innerHTML = `${parkingobj.location}`;
+        locat.textContent = `Location: ${parkingobj.location}`;
 
         let dis = document.createElement("p");
-        dis.innerHTML = `${parkingobj.distance}`;
+        dis.textContent = `Distance: ${parkingobj.distance}`;
 
         let pri = document.createElement("p");
-        pri.innerHTML = `${parkingobj.price}`;
+        pri.textContent = `Pricee: ${parkingobj.price}`;
 
         let avail = document.createElement("p");
-        avail.innerHTML = `${parkingobj.available}`;
+        avail.textContent = `Availablity: ${parkingobj.available}`;
 
         let closBtn = document.createElement("button");
         closBtn.textContent = "Close";
@@ -270,6 +342,7 @@ parkingList.addEventListener("click", (e) => {
                 localStorage.setItem("reservation", JSON.stringify(result3));
                 alert("Parking Reserved Successfully!");
                 localStorage.setItem("parkingData", JSON.stringify(parkingLocation));
+
                 console.log(result3);
             }
 
@@ -293,11 +366,11 @@ allresrvationbtn.addEventListener("click", () => {
     let parkingCar1 = reusedata.map((parkingcards) => {
         return `
         <div class= "parking-card">  
-                    <h2>${parkingcards.name}</h2>
-                    <p>${parkingcards.location}</p>
-                        <p>${parkingcards.available}</p>
-                        <p>${parkingcards.price}</p>
-                        <p>${parkingcards.distance}</p>
+                    <h2>Parking Namee: ${parkingcards.name}</h2>
+                    <p>Location: ${parkingcards.location}</p>
+                        <p>Availblity: ${parkingcards.available}</p>
+                        <p>Price: ${parkingcards.price}</p>
+                        <p>Distance: ${parkingcards.distance}</p>
                         <button class="cancelbtn" data-id = ${parkingcards.id}>Cancel Reservation</button>     
                     </div> `
     })
@@ -312,55 +385,81 @@ allresrvationbtn.addEventListener("click", () => {
 parkingList.addEventListener("click", (e) => {
 
     let target = e.target.classList.contains("cancelbtn");
+
     if (target === true) {
-        let parkingIndex = e.target.dataset.id;
-        // console.log(parkingIndex)
 
-        let dataread = JSON.parse(localStorage.getItem("reservation"));
+        let parkingIndex = Number(e.target.dataset.id);
+
+        let dataread = JSON.parse(
+            localStorage.getItem("reservation")
+        ) || [];
+
         let removeparkingmain = dataread.filter((removeparking) => {
-            return removeparking.id !== Number(parkingIndex);
-        })
-        parkingList.innerHTML = "";
-        localStorage.setItem("reservation", JSON.stringify(removeparkingmain));
-        // console.log(updatedata) 
+            return removeparking.id !== parkingIndex;
+        });
 
-        let updatedparkinglist = removeparkingmain.forEach((parkingobj) => {
+        let updateParking = parkingLocation.find((car) => {
+            return car.id === parkingIndex;
+        });
+
+        if (updateParking) {
+            updateParking.available = "yes";
+        }
+
+        localStorage.setItem(
+            "reservation",
+            JSON.stringify(removeparkingmain)
+        );
+
+        localStorage.setItem(
+            "parkingData",
+            JSON.stringify(parkingLocation)
+        );
+
+        parkingList.innerHTML = "";
+
+        if (removeparkingmain.length === 0) {
+            parkingList.innerHTML = "No Reservations Found";
+            return;
+        }
+
+        removeparkingmain.forEach((parkingobj) => {
 
             let createDiv = document.createElement("div");
-            createDiv.classList.add("res-div");
+            createDiv.classList.add("parking-card");
 
             let name = document.createElement("h3");
-            name.innerHTML = `${parkingobj.name}`;
+            name.textContent = parkingobj.name;
 
             let locat = document.createElement("p");
-            locat.innerHTML = `${parkingobj.location}`;
+            locat.textContent = parkingobj.location;
 
             let dis = document.createElement("p");
-            dis.innerHTML = `${parkingobj.distance}`;
+            dis.textContent = parkingobj.distance;
 
             let pri = document.createElement("p");
-            pri.innerHTML = `${parkingobj.price}`;
+            pri.textContent = parkingobj.price;
 
             let avail = document.createElement("p");
-            avail.innerHTML = `${parkingobj.available}`;
+            avail.textContent = parkingobj.available;
 
             let reservationBtn = document.createElement("button");
             reservationBtn.classList.add("cancelbtn");
-            reservationBtn.textContent = "Cancel Parking";
-
+            reservationBtn.textContent = "Cancel Reservation";
             reservationBtn.dataset.id = parkingobj.id;
 
-            createDiv.append(name, locat, dis, avail, pri, reservationBtn);
+            createDiv.append(
+                name,
+                locat,
+                dis,
+                pri,
+                avail,
+                reservationBtn
+            );
+
             parkingList.appendChild(createDiv);
+        });
 
-        })
-
-        console.log(updatedparkinglist)
-
-
-
+        console.log(removeparkingmain);
     }
-
-
-
-})
+});

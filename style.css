@@ -1,22 +1,279 @@
-body{
-    background-color: black;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f5f7f4;
+    color: #202820;
+}
+
+/* Navbar */
+
+header {
+    background: #ffffff;
+    border-bottom: 1px solid #e8ece7;
+}
+
+nav {
+    max-width: 1200px;
+    margin: auto;
+    min-height: 85px;
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: 800;
+    color: #208653;
+    letter-spacing: -1px;
+}
+
+.navitems {
+    margin-right: auto;
+}
+
+.navitems ul {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+}
+
+.navitems li {
+    font-size: 14px;
+    font-weight: 600;
+    color: #59635a;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.navitems li:hover {
+    color: #208653;
+}
+
+nav h1 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+button,
+select {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    background: #208653;
     color: white;
+    padding: 12px 19px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
 }
 
-.parking-card{
-    border: 2px solid red;
-    height: auto;
-    width: fit-content;
+button:hover {
+    background: #176b41;
+    transform: translateY(-2px);
 }
 
-.popup-card{
+select {
+    padding: 11px;
+    border: 1px solid #dce3dc;
+    border-radius: 8px;
+    background: white;
+    color: #344034;
+    outline: none;
+}
+
+/* Search Section */
+
+body > section {
+    max-width: 1200px;
+    margin: 35px auto 20px;
+    padding: 0 25px;
+    display: flex;
+    gap: 12px;
+}
+
+.input {
+    flex: 1;
+    padding: 15px 18px;
+    border: 1px solid #dce3dc;
+    border-radius: 9px;
+    outline: none;
+    font-size: 14px;
+    background: white;
+}
+
+.input:focus {
+    border-color: #208653;
+    box-shadow: 0 0 0 3px #20865318;
+}
+
+/* Reservations */
+
+.allreservationbtn {
+    display: block;
+    margin: 15px auto 25px;
+}
+
+/* Main Layout */
+
+main {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 25px;
+
+}
+
+.parking-list {
+    min-width: 0;
+}
+
+.parking-list > h1 {
+    font-size: 25px;
+    margin-bottom: 22px;
+    letter-spacing: -0.7px;
+}
+
+.parking-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* Parking Cards */
+
+.parking-card {
+    background: white;
+    padding: 22px;
+    border: 1px solid #e8ece7;
+    border-radius: 13px;
+    box-shadow: 0 4px 15px #18281808;
+    transition: 0.2s;
+}
+
+.parking-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px #18281812;
+}
+
+.parking-card h2,
+.parking-card h3 {
+    font-size: 17px;
+    margin-bottom: 14px;
+    color: #26352a;
+}
+
+.parking-card p {
+    font-size: 13px;
+    color: #69746b;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.parking-card button {
+    margin-top: 8px;
+}
+
+/* Popup */
+
+.popup-card {
     display: none;
+    background: white;
+    padding: 25px;
+    border: 1px solid #e3eae3;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px #18281815;
+    margin-top: 20px;
+}
+
+.popup-card h3 {
+    font-size: 22px;
+    margin-bottom: 18px;
+}
+
+.popup-card p {
+    font-size: 14px;
+    color: #657066;
+    margin-bottom: 13px;
+}
+
+.popup-card button {
+    margin: 12px 8px 0 0;
 }
 
 
-.allreservation{
-    border: 2px solid red;
-    height: 300px;
-    width: 300px;
-    display: none;
+
+.cancelbtn {
+    background: #d94c4c;
+    /* display: none; */
+
+}
+
+.cancelbtn:hover {
+    background: #b93636;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    nav {
+        flex-wrap: wrap;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    .map-section {
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 600px) {
+    nav {
+        padding: 18px;
+        gap: 15px;
+    }
+
+    .navitems ul {
+        gap: 14px;
+    }
+
+    .navitems li {
+        font-size: 12px;
+    }
+
+    nav h1 {
+        font-size: 13px;
+    }
+
+    body > section {
+        padding: 0 15px;
+    }
+
+    main {
+        padding: 0 15px;
+    }
+
+    .parking-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .parking-list > h1 {
+        font-size: 21px;
+    }
 }
